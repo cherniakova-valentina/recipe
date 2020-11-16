@@ -1,0 +1,7 @@
+package src.recipe.recipedemo.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+import src.recipe.recipedemo.domain.UnitOfMeasure;
+
+public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure, Long> {
+}

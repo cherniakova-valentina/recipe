@@ -1,7 +1,5 @@
 package src.recipe.recipedemo.domain;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,18 +13,19 @@ public class Recipe {
     private String description;
     private Integer prepTime;
     private Integer cookTime;
-    private Integer serving;
+    private Integer servings;
+    private String source;
     private String url;
     private String directions;
 
-    @Enumerated(value = EnumType.STRING)
-    private Difficalty difficalty;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
 
     @Lob
     private Byte[] image;
+
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
@@ -35,7 +34,7 @@ public class Recipe {
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    Set<Category> categories;
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -69,12 +68,20 @@ public class Recipe {
         this.cookTime = cookTime;
     }
 
-    public Integer getServing() {
-        return serving;
+    public Integer getServings() {
+        return servings;
     }
 
-    public void setServing(Integer serving) {
-        this.serving = serving;
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getUrl() {
@@ -93,22 +100,6 @@ public class Recipe {
         this.directions = directions;
     }
 
-    public Difficalty getDifficalty() {
-        return difficalty;
-    }
-
-    public void setDifficalty(Difficalty difficalty) {
-        this.difficalty = difficalty;
-    }
-
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public Byte[] getImage() {
         return image;
     }
@@ -123,6 +114,22 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Set<Category> getCategories() {

@@ -1,6 +1,6 @@
 package src.recipe.recipedemo.domain;
 
-public enum Difficalty {
+public enum Difficulty {
     EASY,
     MODERATE,
     KIND_OF_HARD,

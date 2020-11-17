@@ -1,11 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>
+        .outer {
+          display:flex;
+          padding: 3px;
+        }
+        .outer > div {
+          margin:2px;
+        }
+    </style>
     <meta charset="UTF-8"/>
     <title>Recipe Home</title>
 </head>
 <body>
 <h1>My recipes!</h1>
+
+<div style="width: 100%" th:each="recipe : ${recipes}">
+    <h3 th:text="${recipe.description}">Awesome mushroom soup</h3>
+    <div class="outer">
+        <div class="gallery">
+            <img src="../testImages/recipeIcon.png" width="200" height="200">
+        </div>
+        <div>
+            <h5 th:text="${'Difficulty: ' + recipe.difficulty}">Difficulty: SIMPLE</h5>
+            <h5 th:text="${'Preparation time: ' + recipe.prepTime + ' minutes'}">Preparation time: 15 minutes</h5>
+            <h5 th:text="${'Cooking time: ' + recipe.cookTime + ' minutes'}">Cooking time: 15 minutes</h5>
+            <h5 th:text="${'Serving: ' + recipe.servings}"> Serving: 4</h5>
+            <h5 th:text="${'Source: ' + recipe.source}">Source: CookBook</h5>
+            <h5 th:text="${'URL: ' + recipe.url}">URL: some.com</h5>
+            <h5>Categories: </h5>
+            <div th:each="category : ${recipe.categories}">
+                <p th:text="${category.description}">Some category</p>
+            </div>
+        </div>
+    </div>
+
+    <h5>Ingredients: </h5>
+    <div th:each="ingredient : ${recipe.ingredients}">
+        <p th:text="${ingredient.amount + ' ' + ingredient.uom.description + ' ' + ingredient.description}">1 uom of some ingredient</p>
+    </div>
+
+    <h5>Directions:</h5>
+    <p th:text="${recipe.directions}">Some directions</p>
+
+    <h5>Notes</h5>
+    <p th:text="${recipe.notes.recipeNotes}">Some notes</p>
+
+
+</div>
 
 </body>
 </html>

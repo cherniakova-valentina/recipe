@@ -1,5 +1,6 @@
 package src.recipe.recipedemo.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import src.recipe.recipedemo.domain.*;
@@ -11,6 +12,7 @@ import src.recipe.recipedemo.services.RecipeService;
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -31,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
 
         recipeRepository.saveAll(getRecipes());
 
-        System.out.println("recipes # " + recipeRepository.count());
+        log.debug("recipes # " + recipeRepository.count());
     }
 
     private List<Recipe> getRecipes() {
@@ -78,6 +80,8 @@ public class DataLoader implements CommandLineRunner {
             throw new RuntimeException("Unexpected unit of measure.");
         UnitOfMeasure pieceUOM = teaspoonUOMOptional.get();
 
+        log.debug("Units of measure loaded from db");
+
         // get Categories
 
         Optional<Category> americanCategoryOptional = categoryRepository.findByDescription("American");
@@ -89,6 +93,8 @@ public class DataLoader implements CommandLineRunner {
         if (! mexicanCategoryOptional.isPresent())
             throw new RuntimeException("Unexpected category");
         Category mexicanCategory = mexicanCategoryOptional.get();
+
+        log.debug("Categories loaded from db");
 
         // guacamole recipe
 
@@ -132,6 +138,8 @@ public class DataLoader implements CommandLineRunner {
         guacamoleRecipe.addIngredient(new Ingredient("Tortilla chips, to serve", new BigDecimal(1), pieceUOM));
 
         recipes.add(guacamoleRecipe);
+
+        log.debug("Guacamole recipe added to db");
 
         // Spicy Grilled Chicken Tacos Recipe
 
@@ -185,6 +193,8 @@ public class DataLoader implements CommandLineRunner {
         grilledChickenTacosRecipe.addIngredient(new Ingredient("sour cream", new BigDecimal(0.5), cupUOM));
 
         recipes.add(grilledChickenTacosRecipe);
+
+        log.debug("Grilled chicken tacos recipe added to db");
 
         return recipes;
     }

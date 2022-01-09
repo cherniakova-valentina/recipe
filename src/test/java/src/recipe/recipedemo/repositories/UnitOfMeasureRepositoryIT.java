@@ -35,7 +35,7 @@ class UnitOfMeasureRepositoryIT {
     void findByDescriptionTeaspoonNegative() throws Exception {
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
-        assertNotEquals("Teaspoonss", uomOptional.get().getDescription());
+        assertNotEquals("Teaspoons", uomOptional.get().getDescription());
     }
 
     @Test

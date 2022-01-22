@@ -24,7 +24,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" ></script>
 </head>
 <body>
 
@@ -44,43 +44,46 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Description</th>
+                                <th>View</th>
                             </tr>
                             </thead>
                             <tr th:each="recipe : ${recipes}">
+                                <!-- /*@thymesVar id="recipe" type="src.recipe.recipedemo.domain.Recipe" -->
                                 <td th:text="${recipe.id}">123</td>
-                                <td>
-                                    <div style="width: 100%">
-                                        <h3 th:text="${recipe.description}">Awesome mushroom soup</h3>
-                                        <div class="outer">
-                                            <div class="gallery">
-                                                <img src="../testImages/recipeIcon.png" width="200" height="200">
-                                            </div>
-                                            <div>
-                                                <h5 th:text="${'Difficulty: ' + recipe.difficulty}">Difficulty: SIMPLE</h5>
-                                                <h5 th:text="${'Preparation time: ' + recipe.prepTime + ' minutes'}">Preparation time: 15 minutes</h5>
-                                                <h5 th:text="${'Cooking time: ' + recipe.cookTime + ' minutes'}">Cooking time: 15 minutes</h5>
-                                                <h5 th:text="${'Serving: ' + recipe.servings}"> Serving: 4</h5>
-                                                <h5 th:text="${'Source: ' + recipe.source}">Source: CookBook</h5>
-                                                <h5 th:text="${'URL: ' + recipe.url}">URL: some.com</h5>
-                                                <h5>Categories: </h5>
-                                                <div th:each="category : ${recipe.categories}">
-                                                    <p th:text="${category.description}">Some category</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <td th:text="${recipe.description}">Awesome mushroom soup
+<!--                                    <div style="width: 100%">-->
+<!--                                        <h3 th:text="${recipe.description}">Awesome mushroom soup</h3>-->
+<!--                                        <div class="outer">-->
+<!--                                            <div class="gallery">-->
+<!--                                                <img src="../testImages/recipeIcon.png" width="200" height="200">-->
+<!--                                            </div>-->
+<!--                                            <div>-->
+<!--                                                <h5 th:text="${'Difficulty: ' + recipe.difficulty}">Difficulty: SIMPLE</h5>-->
+<!--                                                <h5 th:text="${'Preparation time: ' + recipe.prepTime + ' minutes'}">Preparation time: 15 minutes</h5>-->
+<!--                                                <h5 th:text="${'Cooking time: ' + recipe.cookTime + ' minutes'}">Cooking time: 15 minutes</h5>-->
+<!--                                                <h5 th:text="${'Serving: ' + recipe.servings}"> Serving: 4</h5>-->
+<!--                                                <h5 th:text="${'Source: ' + recipe.source}">Source: CookBook</h5>-->
+<!--                                                <h5 th:text="${'URL: ' + recipe.url}">URL: some.com</h5>-->
+<!--                                                <h5>Categories: </h5>-->
+<!--                                                <div th:each="category : ${recipe.categories}">-->
+<!--                                                    <p th:text="${category.description}">Some category</p>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <h5>Ingredients: </h5>
-                                        <div th:each="ingredient : ${recipe.ingredients}">
-                                            <p th:text="${ingredient.amount + ' ' + ingredient.uom.description + ' ' + ingredient.description}">1 uom of some ingredient</p>
-                                        </div>
+<!--                                        <h5>Ingredients: </h5>-->
+<!--                                        <div th:each="ingredient : ${recipe.ingredients}">-->
+<!--                                            <p th:text="${ingredient.amount + ' ' + ingredient.uom.description + ' ' + ingredient.description}">1 uom of some ingredient</p>-->
+<!--                                        </div>-->
 
-                                        <h5>Directions:</h5>
-                                        <p th:text="${recipe.directions}">Some directions</p>
+<!--                                        <h5>Directions:</h5>-->
+<!--                                        <p th:text="${recipe.directions}">Some directions</p>-->
 
-                                        <h5>Notes</h5>
-                                        <p th:text="${recipe.notes.recipeNotes}">Some notes</p>
-                                    </div>
+<!--                                        <h5>Notes</h5>-->
+<!--                                        <p th:text="${recipe.notes.recipeNotes}">Some notes</p>-->
+<!--                                    </div>-->
                                 </td>
+                                <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
                             </tr>
                         </table>
                     </div>

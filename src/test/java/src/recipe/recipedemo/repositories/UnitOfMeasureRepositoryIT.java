@@ -30,25 +30,4 @@ class UnitOfMeasureRepositoryIT {
 
         assertEquals("Teaspoon", uomOptional.get().getDescription());
     }
-
-    @Test
-    void findByDescriptionTeaspoonNegative() throws Exception {
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        assertNotEquals("Teaspoons", uomOptional.get().getDescription());
-    }
-
-    @Test
-    void findByDescriptionCup() throws Exception {
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
-        assertEquals("Cup", uomOptional.get().getDescription());
-    }
-
-    @Test
-    void findByDescriptionCupNegative() throws Exception {
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
-        assertNotEquals("Teaspoonss", uomOptional.get().getDescription());
-    }
 }

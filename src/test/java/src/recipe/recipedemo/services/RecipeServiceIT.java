@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class RecipeServiceIT {
 
-    public static final String DESCROPTION = "description";
+    public static final String DESCRIPTION = "description";
 
     @Autowired
     RecipeService recipeService;
@@ -35,18 +35,18 @@ class RecipeServiceIT {
 
     @Transactional
     @Test
-    public void testSaveOfDescription() {
+    public void testSaveOfDescription() throws Exception {
         // given
         Iterable<Recipe> recipes = recipeRepository.findAll();
         Recipe testRecipe = recipes.iterator().next();
         RecipeCommand testRecipeCommand = recipeToRecipeCommand.convert(testRecipe);
 
         // when
-        testRecipeCommand.setDescription(DESCROPTION);
+        testRecipeCommand.setDescription(DESCRIPTION);
         RecipeCommand savedRecipeCommad = recipeService.saveRecipeCommand(testRecipeCommand);
 
         // then
-        assertEquals(DESCROPTION, savedRecipeCommad.getDescription());
+        assertEquals(DESCRIPTION, savedRecipeCommad.getDescription());
         assertEquals(testRecipeCommand.getId(), savedRecipeCommad.getId());
         assertEquals(testRecipeCommand.getCategories().size(), savedRecipeCommad.getCategories().size());
         assertEquals(testRecipeCommand.getIngredients().size(), savedRecipeCommad.getIngredients().size());

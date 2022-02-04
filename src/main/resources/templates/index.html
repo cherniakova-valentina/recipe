@@ -27,7 +27,8 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" ></script>
 </head>
 <body>
-
+<!-- /*@thymesVar id="recipes" type="java.util.List"*/ -->
+<!-- /*@thymesVar id="recipe" type="src.recipe.recipedemo.domain.Recipe*/ -->
 
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
@@ -45,14 +46,17 @@
                                 <th>ID</th>
                                 <th>Description</th>
                                 <th>View</th>
+                                <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
                             <tr th:each="recipe : ${recipes}">
-                                <!-- /*@thymesVar id="recipe" type="src.recipe.recipedemo.domain.Recipe" -->
                                 <td th:text="${recipe.id}">123</td>
                                 <td th:text="${recipe.description}">Awesome mushroom soup
                                 </td>
-                                <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
                     </div>

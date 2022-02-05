@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import src.recipe.recipedemo.commands.IngredientCommand;
+import src.recipe.recipedemo.commands.RecipeCommand;
+import src.recipe.recipedemo.commands.UnitOfMeasureCommand;
 import src.recipe.recipedemo.services.IngredientService;
 import src.recipe.recipedemo.services.RecipeService;
 import src.recipe.recipedemo.services.UnitOfMeasureService;
@@ -41,6 +43,26 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId),
                 Long.valueOf(ingredientId)));
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newRecipeIngedient(@PathVariable String recipeId, Model model) {
+
+        // make sure recipe exists
+        // todo add exception if null
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        // need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeCommand.getId());
+        model.addAttribute("ingredient", ingredientCommand);
+
+        //init uom
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping

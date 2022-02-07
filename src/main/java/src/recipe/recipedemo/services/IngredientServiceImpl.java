@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import src.recipe.recipedemo.commands.IngredientCommand;
 import src.recipe.recipedemo.converters.IngredientCommandToIngredient;
 import src.recipe.recipedemo.converters.IngredientToIngredientCommand;
-import src.recipe.recipedemo.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import src.recipe.recipedemo.domain.Ingredient;
 import src.recipe.recipedemo.domain.Recipe;
 import src.recipe.recipedemo.repositories.RecipeRepository;
@@ -19,12 +18,14 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
-    private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public IngredientServiceImpl(RecipeRepository recipeRepository, IngredientToIngredientCommand ingredientToIngredientCommand,
-                                 UnitOfMeasureRepository unitOfMeasureRepository, IngredientCommandToIngredient ingredientCommandToIngredient) {
+
+    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository,
+                                 IngredientToIngredientCommand ingredientToIngredientCommand,
+                                 IngredientCommandToIngredient ingredientCommandToIngredient) {
         this.recipeRepository = recipeRepository;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
@@ -98,6 +99,45 @@ public class IngredientServiceImpl implements IngredientService {
             }
 
             return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+        }
+    }
+
+//    @Override
+//    public void deleteById(Long recipeId, Long ingredientId) {
+//        IngredientCommand ingredientCommand = findByRecipeIdAndIngredientId(recipeId, ingredientId);
+//
+//        ingredientRepository.deleteById(ingredientCommand.getId());
+//    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long recipeId, Long ingredientId) {
+        log.debug("Delete ingredient " + ingredientId + " in recipe " + recipeId);
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if (recipeOptional.isPresent()) {
+            Recipe recipe = recipeOptional.get();
+            log.debug("found recipe " + recipe.getId());
+
+            Optional<Ingredient> ingredientOptional = recipe.getIngredients().stream()
+                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                    .findFirst();
+
+            if (ingredientOptional.isPresent()) {
+                Ingredient ingredientToDelete = ingredientOptional.get();
+                log.debug("Ingredient is found" + ingredientToDelete.getId());
+                ingredientToDelete.setRecipe(null);  // hibernate will delete it from database by relationship
+                recipe.getIngredients().remove(ingredientOptional.get());
+                recipeRepository.save(recipe);
+
+            } else {
+                // todo implement error
+                log.error("Ingredient with id " + ingredientId + " for recipe with id " + recipeId + " does not exits");
+            }
+        } else {
+            // todo implement error
+            log.error("Recipe with id " + recipeId + " does not exits");
         }
     }
 }
